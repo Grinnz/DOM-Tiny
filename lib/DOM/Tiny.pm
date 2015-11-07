@@ -164,10 +164,8 @@ sub type { shift->tree->[0] }
 sub val {
   my $self = shift;
 
-  my $tag = $self->tag;
-
   # "option"
-  return defined $self->{value} ? $self->{value} : $self->text if $tag eq 'option';
+  return $self->{value} // $self->text if (my $tag = $self->tag) eq 'option';
 
   # "textarea", "input" or "button"
   return $tag eq 'textarea' ? $self->text : $self->{value} if $tag ne 'select';

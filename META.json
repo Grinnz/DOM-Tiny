@@ -26,7 +26,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "0"
+            "Module::Build::Tiny" : "0.034"
          }
       },
       "develop" : {
@@ -43,7 +43,7 @@
             "Exporter" : "0",
             "List::Util" : "0",
             "Scalar::Util" : "0",
-            "perl" : "5.008001"
+            "perl" : "5.010001"
          }
       },
       "test" : {

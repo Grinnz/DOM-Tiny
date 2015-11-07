@@ -98,9 +98,7 @@ sub _compile {
 
     # Attributes
     elsif ($css =~ /\G$ATTR_RE/gco) {
-      my $op = defined $2 ? $2 : '';
-      my $value = defined $3 ? $3 : (defined $4 ? $4 : $5);
-      push @$last, ['attr', _name($1), _value($op, $value, $6)];
+      push @$last, ['attr', _name($1), _value($2 // '', $3 // $4 // $5, $6)];
     }
 
     # Pseudo-class (":not" contains more selectors)
@@ -135,7 +133,7 @@ sub _equation {
   return $num if $equation !~ /(?:(-?(?:\d+)?)?(n))?\s*\+?\s*(-?\s*\d+)?\s*$/i;
   $num->[0] = defined($1) && $1 ne '' ? $1 : $2 ? 1 : 0;
   $num->[0] = -1 if $num->[0] eq '-';
-  $num->[1] = $3 || 0;
+  $num->[1] = $3 // 0;
   $num->[1] =~ s/\s+//g;
   return $num;
 }

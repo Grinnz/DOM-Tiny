@@ -121,7 +121,7 @@ sub parse {
         # Attributes
         my (%attrs, $closing);
         while ($attr =~ /$ATTR_RE/go) {
-          my ($key, $value) = ($xml ? $1 : lc $1, defined $3 ? $3 : $4);
+          my ($key, $value) = ($xml ? $1 : lc $1, $3 // $4);
 
           # Empty tag
           ++$closing and next if $key eq '/';
