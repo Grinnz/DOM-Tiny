@@ -6,7 +6,7 @@ use Exporter 'import';
 
 our $VERSION = '0.001';
 
-our @EXPORT_OK = qw(html_unescape xml_escape);
+our @EXPORT_OK = qw(html_escape html_unescape);
 
 # To generate a new HTML entity table run this command
 # perl examples/entities.pl
@@ -16,8 +16,8 @@ for my $line (split "\n", join('', <DATA>)) {
   $ENTITIES{$1} = defined $3 ? (chr(hex $2) . chr(hex $3)) : chr(hex $2);
 }
 
-# Characters that should be escaped in XML
-my %XML = (
+# Characters that should be escaped in HTML/XML
+my %ESCAPE = (
   '&'  => '&amp;',
   '<'  => '&lt;',
   '>'  => '&gt;',
@@ -25,15 +25,15 @@ my %XML = (
   '\'' => '&#39;'
 );
 
-sub html_unescape {
+sub html_escape {
   my $str = shift;
-  $str =~ s/&(?:\#((?:\d{1,7}|x[0-9a-fA-F]{1,6}));|(\w+;))/_decode($1, $2)/ge;
+  $str =~ s/([&<>"'])/$ESCAPE{$1}/ge;
   return $str;
 }
 
-sub xml_escape {
+sub html_unescape {
   my $str = shift;
-  $str =~ s/([&<>"'])/$XML{$1}/ge;
+  $str =~ s/&(?:\#((?:\d{1,7}|x[0-9a-fA-F]{1,6}));|(\w+;))/_decode($1, $2)/ge;
   return $str;
 }
 
@@ -57,11 +57,11 @@ DOM::Tiny::Entities - Encode or decode HTML entities in strings
 
 =head1 SYNOPSIS
 
-  use DOM::Tiny::Entities qw(html_unescape xml_escape);
+  use DOM::Tiny::Entities qw(html_escape html_unescape);
   
   my $str = 'foo &amp; bar';
+  $str = html_escape $str; # "foo &amp; bar"
   $str = html_unescape $str; # "foo & bar"
-  $str = xml_escape $str; # "foo &amp; bar"
 
 =head1 DESCRIPTION
 
@@ -71,6 +71,14 @@ are exported on demand.
 
 =head1 FUNCTIONS
 
+=head2 html_escape
+
+ my $escaped = html_escape $str;
+
+Escape unsafe characters C<&>, C<< < >>, C<< > >>, C<">, and C<'> in string.
+
+ html_escape '<div>'; # "&lt;div&gt;"
+
 =head2 html_unescape
 
  my $str = html_unescape $escaped;
@@ -79,14 +87,6 @@ Unescape all HTML entities in string, according to the
 L<HTML Living Standard|https://html.spec.whatwg.org/#named-character-references-table>.
 
  html_unescape '&lt;div&gt; # "<div>"
-
-=head2 xml_escape
-
- my $escaped = xml_escape $str;
-
-Escape unsafe characters C<&>, C<< < >>, C<< > >>, C<">, and C<'> in string.
-
- xml_escape '<div>'; # "&lt;div&gt;"
 
 =head1 BUGS
 

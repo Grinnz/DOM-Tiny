@@ -2,7 +2,7 @@ package DOM::Tiny::HTML;
 
 use strict;
 use warnings;
-use DOM::Tiny::Entities qw(html_unescape xml_escape);
+use DOM::Tiny::Entities qw(html_escape html_unescape);
 use Scalar::Util 'weaken';
 use Class::Tiny::Chained 'xml', { tree => sub { ['root'] } };
 
@@ -196,7 +196,7 @@ sub _render {
 
   # Text (escaped)
   my $type = $tree->[0];
-  return xml_escape($tree->[1]) if $type eq 'text';
+  return html_escape($tree->[1]) if $type eq 'text';
 
   # Raw text
   return $tree->[1] if $type eq 'raw';
@@ -225,7 +225,7 @@ sub _render {
   for my $key (sort keys %{$tree->[2]}) {
     my $value = $tree->[2]{$key};
     $result .= $xml ? qq{ $key="$key"} : " $key" and next unless defined $value;
-    $result .= qq{ $key="} . xml_escape($value) . '"';
+    $result .= qq{ $key="} . html_escape($value) . '"';
   }
 
   # No children

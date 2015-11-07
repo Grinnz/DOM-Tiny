@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use utf8;
 use Test::More;
-use DOM::Tiny::Entities qw(html_unescape xml_escape);
+use DOM::Tiny::Entities qw(html_escape html_unescape);
 use Encode 'decode';
 
 # html_unescape
@@ -28,16 +28,16 @@ is html_unescape('foobar'), 'foobar', 'right HTML unescaped result';
 is html_unescape(decode 'UTF-8', 'foo&lt;baz&gt;&#x26;&#34;&OElig;&Foo;'),
   "foo<baz>&\"\x{152}&Foo;", 'right HTML unescaped result';
 
-# xml_escape
-is xml_escape(qq{la<f>\nbar"baz"'yada\n'&lt;la}),
+# html_escape
+is html_escape(qq{la<f>\nbar"baz"'yada\n'&lt;la}),
   "la&lt;f&gt;\nbar&quot;baz&quot;&#39;yada\n&#39;&amp;lt;la",
-  'right XML escaped result';
+  'right HTML escaped result';
 
-# xml_escape (UTF-8 with nothing to escape)
-is xml_escape('привет'), 'привет', 'right XML escaped result';
+# html_escape (UTF-8 with nothing to escape)
+is html_escape('привет'), 'привет', 'right HTML escaped result';
 
-# xml_escape (UTF-8)
-is xml_escape('привет<foo>'), 'привет&lt;foo&gt;',
-  'right XML escaped result';
+# html_escape (UTF-8)
+is html_escape('привет<foo>'), 'привет&lt;foo&gt;',
+  'right HTML escaped result';
 
 done_testing;
