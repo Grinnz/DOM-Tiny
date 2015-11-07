@@ -141,7 +141,7 @@ DOM::Tiny::Collection - Collection
 =head1 DESCRIPTION
 
 L<DOM::Tiny::Collection> is an array-based container for collections of
-L<DOM::Tiny> nodes based on L<Mojo::Collection>.
+L<DOM::Tiny> nodes or other items based on L<Mojo::Collection>.
 
   # Access array directly to manipulate collection
   my $collection = DOM::Tiny::Collection->new(1 .. 25);
