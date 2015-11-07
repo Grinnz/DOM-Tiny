@@ -53,7 +53,7 @@ sub _decode {
 
 =head1 NAME
 
-DOM::Tiny::Entities - Encode or decode HTML entities in strings
+DOM::Tiny::Entities - Escape or unescape HTML entities in strings
 
 =head1 SYNOPSIS
 
