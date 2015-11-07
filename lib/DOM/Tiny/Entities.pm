@@ -60,8 +60,8 @@ DOM::Tiny::Entities - Encode or decode HTML entities in strings
   use DOM::Tiny::Entities qw(html_escape html_unescape);
   
   my $str = 'foo &amp; bar';
-  $str = html_escape $str; # "foo &amp; bar"
   $str = html_unescape $str; # "foo & bar"
+  $str = html_escape $str; # "foo &amp; bar"
 
 =head1 DESCRIPTION
 
