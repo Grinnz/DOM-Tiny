@@ -893,7 +893,7 @@ This element's tag name.
 
   $dom = $dom->tap(sub {...});
 
-Alias for L<Mojo::Base/"tap">.
+Equivalent to L<Mojo::Base/"tap">.
 
 =head2 text
 

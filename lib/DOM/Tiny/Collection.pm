@@ -342,7 +342,7 @@ from the results.
 
   $collection = $collection->tap(sub {...});
 
-Alias for L<Mojo::Base/"tap">.
+Equivalent to L<Mojo::Base/"tap">.
 
 =head2 to_array
 
