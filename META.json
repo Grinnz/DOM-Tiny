@@ -26,7 +26,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.034"
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "develop" : {
@@ -77,6 +77,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/Grinnz/DOM-Tiny/issues"
+      },
+      "homepage" : "https://github.com/Grinnz/DOM-Tiny",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/Grinnz/DOM-Tiny.git",
+         "web" : "https://github.com/Grinnz/DOM-Tiny"
+      }
+   },
    "version" : "0.001",
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>"
