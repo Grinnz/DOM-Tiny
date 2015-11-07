@@ -91,7 +91,7 @@ EOW
       },
       "test_requires" => {
         "Encode" => 0,
-        "JSON::Tiny" => "0.41",
+        "JSON::PP" => 0,
         "Test::More" => "0.88"
       }
     );
@@ -99,7 +99,7 @@ EOW
 
     my %fallback_build_requires = (
       "Encode" => 0,
-      "JSON::Tiny" => "0.41",
+      "JSON::PP" => 0,
       "Test::More" => "0.88"
     );
 

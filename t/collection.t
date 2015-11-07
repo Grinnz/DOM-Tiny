@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 use DOM::Tiny::Collection 'c';
-use JSON::Tiny 'encode_json';
+use JSON::PP ();
 
 # Array
 is c(1, 2, 3)->[1], 2, 'right result';
@@ -166,6 +166,6 @@ is_deeply $collection->uniq(join => ',')->flatten->to_array, [1, 2, 2, 1],
   'right result';
 
 # TO_JSON
-is encode_json(c(1, 2, 3)), '[1,2,3]', 'right result';
+is +JSON::PP->new->convert_blessed->encode(c(1, 2, 3)), '[1,2,3]', 'right result';
 
 done_testing();

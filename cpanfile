@@ -5,5 +5,5 @@ requires 'Exporter';
 requires 'List::Util';
 requires 'Scalar::Util';
 test_requires 'Encode';
-test_requires 'JSON::Tiny' => '0.41';
+test_requires 'JSON::PP';
 test_requires 'Test::More' => '0.88';
