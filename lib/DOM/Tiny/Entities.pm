@@ -2,8 +2,9 @@ package DOM::Tiny::Entities;
 
 use strict;
 use warnings;
-use utf8;
 use Exporter 'import';
+
+our $VERSION = '0.001';
 
 our @EXPORT_OK = qw(html_unescape xml_escape);
 

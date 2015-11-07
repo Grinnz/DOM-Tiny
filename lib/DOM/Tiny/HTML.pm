@@ -6,8 +6,10 @@ use DOM::Tiny::Entities qw(html_unescape xml_escape);
 use Scalar::Util 'weaken';
 use Class::Tiny::Chained 'xml', { tree => sub { ['root'] } };
 
+our $VERSION = '0.001';
+
 my $ATTR_RE = qr/
-  ([^<>=\s\/]+|\/)                    # Key
+  ([^<>=\s\/]+|\/)                     # Key
   (?:
     \s*=\s*
     (?s:(["'])(.*?)\g{-2}|([^>\s]*))   # Value
@@ -119,7 +121,7 @@ sub parse {
         # Attributes
         my (%attrs, $closing);
         while ($attr =~ /$ATTR_RE/go) {
-          my ($key, $value) = ($xml ? $1 : lc $1, $3 // $4);
+          my ($key, $value) = ($xml ? $1 : lc $1, defined $3 ? $3 : $4);
 
           # Empty tag
           ++$closing and next if $key eq '/';

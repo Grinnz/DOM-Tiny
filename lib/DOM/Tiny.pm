@@ -164,8 +164,10 @@ sub type { shift->tree->[0] }
 sub val {
   my $self = shift;
 
+  my $tag = $self->tag;
+
   # "option"
-  return $self->{value} // $self->text if (my $tag = $self->tag) eq 'option';
+  return defined $self->{value} ? $self->{value} : $self->text if $tag eq 'option';
 
   # "textarea", "input" or "button"
   return $tag eq 'textarea' ? $self->text : $self->{value} if $tag ne 'select';
@@ -284,8 +286,8 @@ sub _parent { $_[0]->tree->[$_[0]->type eq 'tag' ? 3 : 2] }
 sub _parse { DOM::Tiny::HTML->new(xml => shift->xml)->parse(shift)->tree }
 
 sub _replace {
-  my ($self, $parent, $tree, @nodes) = @_;
-  splice @$parent, _offset($parent, $tree), 1, _link($parent, @nodes);
+  my ($self, $parent, $child, @nodes) = @_;
+  splice @$parent, _offset($parent, $child), 1, _link($parent, @nodes);
   return $self->parent;
 }
 

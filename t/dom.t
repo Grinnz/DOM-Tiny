@@ -774,9 +774,12 @@ is $dom->at('[test=""]')->tag,  'div', 'right tag';
 is $dom->at('[test2=""]')->tag, 'div', 'right tag';
 is $dom->at('[test3=""]'), undef, 'no result';
 
-# Multi-line in attribute
-$dom = DOM::Tiny->new(qq{<div test="line1\nline2" />});
-is $dom->at('div')->attr->{test}, "line1\nline2", 'multi-line attribute';
+# Multi-line attribute
+$dom = DOM::Tiny->new(qq{<div class="line1\nline2" />});
+is $dom->at('div')->attr->{class}, "line1\nline2", 'multi-line attribute value';
+is $dom->at('.line1')->tag, 'div', 'right tag';
+is $dom->at('.line2')->tag, 'div', 'right tag';
+is $dom->at('.line3'), undef, 'no result';
 
 # Whitespaces before closing bracket
 $dom = DOM::Tiny->new('<div >content</div>');

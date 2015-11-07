@@ -7,6 +7,8 @@ use Exporter 'import';
 use List::Util;
 use Scalar::Util 'blessed';
 
+our $VERSION = '0.001';
+
 our @EXPORT_OK = ('c');
 
 sub TO_JSON { [@{shift()}] }
@@ -42,7 +44,7 @@ sub grep {
 }
 
 sub join {
-  join $_[1] // '', map {"$_"} @{$_[0]};
+  join +(defined $_[1] ? $_[1] : ''), map {"$_"} @{$_[0]};
 }
 
 sub last { shift->[-1] }
