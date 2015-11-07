@@ -11,9 +11,14 @@ our $VERSION = '0.001';
 
 our @EXPORT_OK = ('c');
 
-sub TO_JSON { [@{shift()}] }
-
 sub c { __PACKAGE__->new(@_) }
+
+sub new {
+  my $class = shift;
+  return bless [@_], ref $class || $class;
+}
+
+sub TO_JSON { [@{shift()}] }
 
 sub compact {
   my $self = shift;
@@ -52,11 +57,6 @@ sub last { shift->[-1] }
 sub map {
   my ($self, $cb) = (shift, shift);
   return $self->new(map { $_->$cb(@_) } @$self);
-}
-
-sub new {
-  my $class = shift;
-  return bless [@_], ref $class || $class;
 }
 
 sub reduce {
@@ -121,10 +121,10 @@ DOM::Tiny::Collection - Collection
 
 =head1 SYNOPSIS
 
-  use Mojo::Collection;
+  use DOM::Tiny::Collection;
 
   # Manipulate collection
-  my $collection = Mojo::Collection->new(qw(just works));
+  my $collection = DOM::Tiny::Collection->new(qw(just works));
   unshift @$collection, 'it';
   say $collection->join("\n");
 
@@ -135,32 +135,39 @@ DOM::Tiny::Collection - Collection
   });
 
   # Use the alternative constructor
-  use Mojo::Collection 'c';
+  use DOM::Tiny::Collection 'c';
   c(qw(a b c))->join('/')->url_escape->say;
 
 =head1 DESCRIPTION
 
-L<Mojo::Collection> is an array-based container for collections.
+L<DOM::Tiny::Collection> is an array-based container for collections of
+L<DOM::Tiny> nodes based on L<Mojo::Collection>.
 
   # Access array directly to manipulate collection
-  my $collection = Mojo::Collection->new(1 .. 25);
+  my $collection = DOM::Tiny::Collection->new(1 .. 25);
   $collection->[23] += 100;
   say for @$collection;
 
 =head1 FUNCTIONS
 
-L<Mojo::Collection> implements the following functions, which can be imported
+L<DOM::Tiny::Collection> implements the following functions, which can be imported
 individually.
 
 =head2 c
 
   my $collection = c(1, 2, 3);
 
-Construct a new array-based L<Mojo::Collection> object.
+Construct a new array-based L<DOM::Tiny::Collection> object.
 
 =head1 METHODS
 
-L<Mojo::Collection> implements the following methods.
+L<DOM::Tiny::Collection> implements the following methods.
+
+=head2 new
+
+  my $collection = DOM::Tiny::Collection->new(1, 2, 3);
+
+Construct a new array-based L<DOM::Tiny::Collection> object.
 
 =head2 TO_JSON
 
@@ -176,7 +183,7 @@ Create a new collection with all elements that are defined and not an empty
 string.
 
   # "0, 1, 2, 3"
-  Mojo::Collection->new(0, 1, undef, 2, '', 3)->compact->join(', ');
+  DOM::Tiny::Collection->new(0, 1, undef, 2, '', 3)->compact->join(', ');
 
 =head2 each
 
@@ -209,8 +216,8 @@ passed to the callback and is also available as C<$_>.
   # Longer version
   my $first = $collection->first(sub { $_->$method(@args) });
 
-  # Find first value that contains the word "mojo"
-  my $interesting = $collection->first(qr/mojo/i);
+  # Find first value that contains the word "dom"
+  my $interesting = $collection->first(qr/dom/i);
 
   # Find first value that is greater than 5
   my $greater = $collection->first(sub { $_ > 5 });
@@ -223,7 +230,7 @@ Flatten nested collections/arrays recursively and create a new collection with
 all elements.
 
   # "1, 2, 3, 4, 5, 6, 7"
-  Mojo::Collection->new(1, [2, [3, 4], 5, [6]], 7)->flatten->join(', ');
+  DOM::Tiny::Collection->new(1, [2, [3, 4], 5, [6]], 7)->flatten->join(', ');
 
 =head2 grep
 
@@ -241,8 +248,8 @@ C<$_>.
   # Longer version
   my $new = $collection->grep(sub { $_->$method(@args) });
 
-  # Find all values that contain the word "mojo"
-  my $interesting = $collection->grep(qr/mojo/i);
+  # Find all values that contain the word "dom"
+  my $interesting = $collection->grep(qr/dom/i);
 
   # Find all values that are greater than 5
   my $greater = $collection->grep(sub { $_ > 5 });
@@ -276,14 +283,8 @@ passed to the callback and is also available as C<$_>.
   # Longer version
   my $new = $collection->map(sub { $_->$method(@args) });
 
-  # Append the word "mojo" to all values
-  my $mojoified = $collection->map(sub { $_ . 'mojo' });
-
-=head2 new
-
-  my $collection = Mojo::Collection->new(1, 2, 3);
-
-Construct a new array-based L<Mojo::Collection> object.
+  # Append the word "dom" to all values
+  my $domified = $collection->map(sub { $_ . 'dom' });
 
 =head2 reduce
 
@@ -312,7 +313,7 @@ Create a new collection with all elements in reverse order.
 Create a new collection with all selected elements.
 
   # "B C E"
-  Mojo::Collection->new('A', 'B', 'C', 'D', 'E')->slice(1, 2, 4)->join(' ');
+  DOM::Tiny::Collection->new('A', 'B', 'C', 'D', 'E')->slice(1, 2, 4)->join(' ');
 
 =head2 shuffle
 
@@ -364,10 +365,10 @@ callback/method.
   my $new = $collection->uniq(sub { $_->$method(@args) });
 
   # "foo bar baz"
-  Mojo::Collection->new('foo', 'bar', 'bar', 'baz')->uniq->join(' ');
+  DOM::Tiny::Collection->new('foo', 'bar', 'bar', 'baz')->uniq->join(' ');
 
   # "[[1, 2], [2, 1]]"
-  Mojo::Collection->new([1, 2], [2, 1], [3, 2])->uniq(sub{ $_->[1] })->to_array;
+  DOM::Tiny::Collection->new([1, 2], [2, 1], [3, 2])->uniq(sub{ $_->[1] })->to_array;
 
 =head1 BUGS
 

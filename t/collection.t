@@ -135,9 +135,9 @@ is_deeply $collection->sort(sub { $b cmp $a })->to_array, [5, 4, 2, 1],
   'right order';
 is_deeply $collection->sort(sub { $_[1] cmp $_[0] })->to_array, [5, 4, 2, 1],
   'right order';
-$collection = c(qw(Test perl Mojo));
+$collection = c(qw(Test perl DOM));
 is_deeply $collection->sort(sub { uc(shift) cmp uc(shift) })->to_array,
-  [qw(Mojo perl Test)], 'right order';
+  [qw(DOM perl Test)], 'right order';
 $collection = c();
 is_deeply $collection->sort->to_array, [], 'no elements';
 is_deeply $collection->sort(sub { $a cmp $b })->to_array, [], 'no elements';
