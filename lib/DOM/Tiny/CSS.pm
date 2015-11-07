@@ -544,7 +544,8 @@ carefully since it is very dynamic.
 
 =head1 METHODS
 
-L<DOM::Tiny::CSS> implements the following methods.
+L<DOM::Tiny::CSS> inherits a constructor from L<Class::Tiny::Object|Class::Tiny/"Object construction">,
+and implements the following methods.
 
 =head2 matches
 

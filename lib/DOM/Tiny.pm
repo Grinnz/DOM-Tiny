@@ -18,6 +18,12 @@ use Scalar::Util qw(blessed weaken);
 
 our $VERSION = '0.001';
 
+sub new {
+  my $class = shift;
+  my $self = bless \DOM::Tiny::HTML->new, ref $class || $class;
+  return @_ ? $self->parse(@_) : $self;
+}
+
 sub all_text { shift->_all_text(1, @_) }
 
 sub ancestors { _select($_[0]->_collect($_[0]->_ancestors), $_[1]) }
@@ -95,12 +101,6 @@ sub namespace {
   }
 
   return undef;
-}
-
-sub new {
-  my $class = shift;
-  my $self = bless \DOM::Tiny::HTML->new, ref $class || $class;
-  return @_ ? $self->parse(@_) : $self;
 }
 
 sub next      { $_[0]->_maybe($_[0]->_siblings(1, 0)->[1]) }
@@ -480,6 +480,14 @@ XML detection can also be disabled with the L</"xml"> method.
 
 L<DOM::Tiny> implements the following methods.
 
+=head2 new
+
+  my $dom = DOM::Tiny->new;
+  my $dom = DOM::Tiny->new('<foo bar="baz">I ♥ DOM::Tiny!</foo>');
+
+Construct a new scalar-based L<DOM::Tiny> object and L</"parse"> HTML/XML
+fragment if necessary.
+
 =head2 all_text
 
   my $trimmed   = $dom->all_text;
@@ -708,14 +716,6 @@ Find this element's namespace or return C<undef> if none could be found.
 
   # Find namespace for an element that may or may not have a namespace prefix
   my $namespace = $dom->at('svg > circle')->namespace;
-
-=head2 new
-
-  my $dom = DOM::Tiny->new;
-  my $dom = DOM::Tiny->new('<foo bar="baz">I ♥ DOM::Tiny!</foo>');
-
-Construct a new scalar-based L<DOM::Tiny> object and L</"parse"> HTML/XML
-fragment if necessary.
 
 =head2 next
 

@@ -311,7 +311,8 @@ auto detection based on processing instructions.
 
 =head1 METHODS
 
-L<DOM::Tiny::HTML> implements the following methods.
+L<DOM::Tiny::HTML> inherits a constructor from L<Class::Tiny::Object|Class::Tiny/"Object construction">,
+and implements the following methods.
 
 =head2 parse
 
