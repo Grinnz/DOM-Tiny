@@ -420,9 +420,11 @@ DOM::Tiny - Minimalistic HTML/XML DOM parser with CSS selectors
 
 =head1 DESCRIPTION
 
-L<DOM::Tiny> is a minimalistic and relaxed HTML/XML DOM parser with CSS
-selector support based on L<Mojo::DOM>. It will even try to interpret broken
-HTML and XML, so you should not use it for validation.
+L<DOM::Tiny> is a minimalistic and relaxed pure-perl HTML/XML DOM parser with
+support for the L<HTML Living Standard|https://html.spec.whatwg.org/> and
+L<CSS3 selectors|http://www.w3.org/TR/selectors/> based on L<Mojo::DOM>. It
+will even try to interpret broken HTML and XML, so you should not use it for
+validation.
 
 =head1 NODES AND ELEMENTS
 
