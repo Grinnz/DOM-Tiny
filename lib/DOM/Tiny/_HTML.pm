@@ -47,14 +47,13 @@ my %RAW = map { $_ => 1 } qw(script style);
 # HTML elements that only contain raw text and entities
 my %RCDATA = map { $_ => 1 } qw(title textarea);
 
-my %END = (
-  # HTML elements with optional end tags
-  body => 'head', optgroup => 'optgroup', option => 'option',
-  # HTML elements that break paragraphs
-  map +($_ => 'p'),
-    qw(address article aside blockquote dir div dl fieldset footer form h1 h2),
-    qw(h3 h4 h5 h6 header hr main menu nav ol p pre section table ul)
-);
+# HTML elements with optional end tags
+my %END = (body => 'head', optgroup => 'optgroup', option => 'option');
+
+# HTML elements that break paragraphs
+$END{$_} = 'p' for
+  qw(address article aside blockquote dir div dl fieldset footer form h1 h2),
+  qw(h3 h4 h5 h6 header hr main menu nav ol p pre section table ul);
 
 # HTML table elements with optional end tags
 my %TABLE = map { $_ => 1 } qw(colgroup tbody td tfoot th thead tr);
