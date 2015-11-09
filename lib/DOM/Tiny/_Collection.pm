@@ -44,7 +44,7 @@ sub grep {
 }
 
 sub join {
-  join $_[1] // '', map {"$_"} @{$_[0]};
+  join +(defined($_[1]) ? $_[1] : ''), map {"$_"} @{$_[0]};
 }
 
 sub last { shift->[-1] }

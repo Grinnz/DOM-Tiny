@@ -8,10 +8,10 @@ use Scalar::Util 'weaken';
 our $VERSION = '0.002';
 
 my $ATTR_RE = qr/
-  ([^<>=\s\/]+|\/)                     # Key
+  ([^<>=\s\/]+|\/)                         # Key
   (?:
     \s*=\s*
-    (?s:(["'])(.*?)\g{-2}|([^>\s]*))   # Value
+    (?s:(?:"(.*?)")|(?:'(.*?)')|([^>\s]*)) # Value
   )?
   \s*
 /x;
@@ -33,7 +33,8 @@ my $TOKEN_RE = qr/
     |
       \?(.*?)\?                                       # Processing Instruction
     |
-      \s*([^<>\s]+\s*(?:(?:$ATTR_RE){0,32766})*+)     # Tag
+      \s*([^<>\s]+\s*(?>(?:$ATTR_RE){0,32766})*)       # Tag
+      # Workaround for perl's limit of * to {0,32767}
     )>
   |
     (<)                                               # Runaway "<"
@@ -46,13 +47,13 @@ my %RAW = map { $_ => 1 } qw(script style);
 # HTML elements that only contain raw text and entities
 my %RCDATA = map { $_ => 1 } qw(title textarea);
 
-# HTML elements with optional end tags
-my %END = (body => 'head', optgroup => 'optgroup', option => 'option');
-
-# HTML elements that break paragraphs
-map { $END{$_} = 'p' } (
-  qw(address article aside blockquote dir div dl fieldset footer form h1 h2),
-  qw(h3 h4 h5 h6 header hr main menu nav ol p pre section table ul)
+my %END = (
+  # HTML elements with optional end tags
+  body => 'head', optgroup => 'optgroup', option => 'option',
+  # HTML elements that break paragraphs
+  map +($_ => 'p'),
+    qw(address article aside blockquote dir div dl fieldset footer form h1 h2),
+    qw(h3 h4 h5 h6 header hr main menu nav ol p pre section table ul)
 );
 
 # HTML table elements with optional end tags
@@ -139,7 +140,8 @@ sub parse {
         # Attributes
         my (%attrs, $closing);
         while ($attr =~ /$ATTR_RE/go) {
-          my ($key, $value) = ($xml ? $1 : lc $1, $3 // $4);
+          my $key = $xml ? $1 : lc $1;
+          my $value = defined($2) ? $2 : defined($3) ? $3 : $4;
 
           # Empty tag
           ++$closing and next if $key eq '/';

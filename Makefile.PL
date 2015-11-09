@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.010001;
+use 5.008001;
 
 use ExtUtils::MakeMaker;
 
@@ -14,7 +14,7 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "DOM-Tiny",
   "LICENSE" => "artistic_2",
-  "MIN_PERL_VERSION" => "5.010001",
+  "MIN_PERL_VERSION" => "5.008001",
   "NAME" => "DOM::Tiny",
   "PREREQ_PM" => {
     "Carp" => 0,

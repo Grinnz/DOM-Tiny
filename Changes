@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Support perl 5.8 (mst)
 
 0.001     2015-11-09 02:56:35 EST
   - First release

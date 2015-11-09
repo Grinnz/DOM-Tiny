@@ -167,7 +167,8 @@ sub val {
   my $self = shift;
 
   # "option"
-  return $self->{value} // $self->text if (my $tag = $self->tag) eq 'option';
+  return defined($self->{value}) ? $self->{value} : $self->text
+    if (my $tag = $self->tag) eq 'option';
 
   # "textarea", "input" or "button"
   return $tag eq 'textarea' ? $self->text : $self->{value} if $tag ne 'select';
@@ -1504,6 +1505,14 @@ Report any issues on the public bugtracker.
 =head1 AUTHOR
 
 Dan Book <dbook@cpan.org>
+
+=head1 CONTRIBUTORS
+
+=over
+
+=item Matt S Trout (mst)
+
+=back
 
 =head1 COPYRIGHT AND LICENSE
 
