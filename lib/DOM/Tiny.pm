@@ -514,7 +514,7 @@ whitespace trimming is enabled by default.
   my $collection = $dom->ancestors('div ~ p');
 
 Find all ancestor elements of this node matching the CSS selector and return a
-L<DOM::Tiny::Collection> object containing these elements as L<DOM::Tiny>
+L<collection|/"COLLECTION METHODS"> containing these elements as L<DOM::Tiny>
 objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are supported.
 
   # List tag names of ancestor elements
@@ -585,7 +585,7 @@ This element's attributes.
 
   my $collection = $dom->child_nodes;
 
-Return a L<DOM::Tiny::Collection> object containing all child nodes of this
+Return a L<collection|/"COLLECTION METHODS"> containing all child nodes of this
 element as L<DOM::Tiny> objects.
 
   # "<p><b>123</b></p>"
@@ -603,7 +603,7 @@ element as L<DOM::Tiny> objects.
   my $collection = $dom->children('div ~ p');
 
 Find all child elements of this element matching the CSS selector and return a
-L<DOM::Tiny::Collection> object containing these elements as L<DOM::Tiny>
+L<collection|/"COLLECTION METHODS"> containing these elements as L<DOM::Tiny>
 objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are supported.
 
   # Show tag name of random child element
@@ -640,7 +640,7 @@ and C<tag> nodes) or raw content.
 
   my $collection = $dom->descendant_nodes;
 
-Return a L<DOM::Tiny::Collection> object containing all descendant nodes of
+Return a L<collection|/"COLLECTION METHODS"> containing all descendant nodes of
 this element as L<DOM::Tiny> objects.
 
   # "<p><b>123</b></p>"
@@ -658,7 +658,7 @@ this element as L<DOM::Tiny> objects.
   my $collection = $dom->find('div ~ p');
 
 Find all descendant elements of this element matching the CSS selector and
-return a L<DOM::Tiny::Collection> object containing these elements as
+return a L<collection|/"COLLECTION METHODS"> containing these elements as
 L<DOM::Tiny> objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are
 supported.
 
@@ -680,7 +680,7 @@ supported.
   my $collection = $dom->following('div ~ p');
 
 Find all sibling elements after this node matching the CSS selector and return
-a L<DOM::Tiny::Collection> object containing these elements as L<DOM::Tiny>
+a L<collection|/"COLLECTION METHODS"> containing these elements as L<DOM::Tiny>
 objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are supported.
 
   # List tags of sibling elements after this node
@@ -690,7 +690,7 @@ objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are supported.
 
   my $collection = $dom->following_nodes;
 
-Return a L<DOM::Tiny::Collection> object containing all sibling nodes after
+Return a L<collection|/"COLLECTION METHODS"> containing all sibling nodes after
 this node as L<DOM::Tiny> objects.
 
   # "C"
@@ -770,7 +770,7 @@ Parse HTML/XML fragment with L<DOM::Tiny::HTML>.
   my $collection = $dom->preceding('div ~ p');
 
 Find all sibling elements before this node matching the CSS selector and return
-a L<DOM::Tiny::Collection> object containing these elements as L<DOM::Tiny>
+a L<collection|/"COLLECTION METHODS"> containing these elements as L<DOM::Tiny>
 objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are supported.
 
   # List tags of sibling elements before this node
@@ -780,8 +780,8 @@ objects. All selectors from L<DOM::Tiny::CSS/"SELECTORS"> are supported.
 
   my $collection = $dom->preceding_nodes;
 
-Return a L<DOM::Tiny::Collection> object containing all sibling nodes before
-this node as L<DOM::Tiny> objects.
+Return a L<collection|/"COLLECTION METHODS"> containing all sibling nodes
+before this node as L<DOM::Tiny> objects.
 
   # "A"
   $dom->parse('A<!-- B --><p>C</p>')->at('p')->preceding_nodes->first->content;
