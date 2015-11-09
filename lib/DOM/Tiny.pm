@@ -1511,7 +1511,7 @@ This is free software, licensed under:
 
 =head1 SEE ALSO
 
-L<Mojo::DOM>, L<XML::LibXML>, L<XML::Twig>, L<HTML::TreeBuilder>, L<XML::Smart>
+L<Mojo::DOM>, L<HTML::TreeBuilder>, L<XML::LibXML>, L<XML::Twig>, L<XML::Smart>
 
 =for Pod::Coverage TO_JSON
 
