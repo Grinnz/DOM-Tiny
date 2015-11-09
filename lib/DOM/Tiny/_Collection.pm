@@ -8,10 +8,6 @@ use Scalar::Util 'blessed';
 
 our $VERSION = '0.001';
 
-=for Pod::Coverage *EVERYTHING*
-
-=cut
-
 sub new {
   my $class = shift;
   return bless [@_], ref $class || $class;
@@ -111,3 +107,7 @@ sub _flatten {
 sub _ref { ref $_[0] eq 'ARRAY' || blessed $_[0] && $_[0]->isa(__PACKAGE__) }
 
 1;
+
+=for Pod::Coverage *EVERYTHING*
+
+=cut

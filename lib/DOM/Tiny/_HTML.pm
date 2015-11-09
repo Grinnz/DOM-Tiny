@@ -1,4 +1,4 @@
-package DOM::Tiny::HTML;
+package DOM::Tiny::_HTML;
 
 use strict;
 use warnings;
@@ -285,88 +285,6 @@ sub _start {
 
 1;
 
-=encoding utf8
+=for Pod::Coverage *EVERYTHING*
 
-=head1 NAME
-
-DOM::Tiny::HTML - HTML/XML engine
-
-=head1 SYNOPSIS
-
-  use DOM::Tiny::HTML;
-
-  # Turn HTML into DOM tree
-  my $html = DOM::Tiny::HTML->new;
-  $html->parse('<div><p id="a">Test</p><p id="b">123</p></div>');
-  my $tree = $html->tree;
-
-=head1 DESCRIPTION
-
-L<DOM::Tiny::HTML> is the HTML/XML engine used by L<DOM::Tiny> based on
-L<Mojo::DOM::HTML>, which is based on the
-L<HTML Living Standard|https://html.spec.whatwg.org> as well as the
-L<Extensible Markup Language (XML) 1.0|http://www.w3.org/TR/xml/>.
-
-=head1 ATTRIBUTES
-
-L<DOM::Tiny::HTML> implements the following attributes.
-
-=head2 tree
-
-  my $tree = $html->tree;
-  $html    = $html->tree(['root']);
-
-Document Object Model. Note that this structure should only be used very
-carefully since it is very dynamic.
-
-=head2 xml
-
-  my $bool = $html->xml;
-  $html    = $html->xml($bool);
-
-Disable HTML semantics in parser and activate case-sensitivity, defaults to
-auto detection based on processing instructions.
-
-=head1 METHODS
-
-L<DOM::Tiny::HTML> implements the following methods.
-
-=head2 new
-
-  my $html = DOM::Tiny::HTML->new;
-  my $html = DOM::Tiny::HTML->new(xml => 1);
-  my $html = DOM::Tiny::HTML->new({xml => 1});
-
-Construct a new hash-based L<DOM::Tiny::HTML> object.
-
-=head2 parse
-
-  $html = $html->parse('<foo bar="baz">I ♥ DOM::Tiny!</foo>');
-
-Parse HTML/XML fragment.
-
-=head2 render
-
-  my $str = $html->render;
-
-Render DOM to HTML/XML.
-
-=head1 BUGS
-
-Report any issues on the public bugtracker.
-
-=head1 AUTHOR
-
-Dan Book <dbook@cpan.org>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2015 by Dan Book.
-
-This is free software, licensed under:
-
-  The Artistic License 2.0 (GPL Compatible)
-
-=head1 SEE ALSO
-
-L<Mojo::DOM::HTML>
+=cut
