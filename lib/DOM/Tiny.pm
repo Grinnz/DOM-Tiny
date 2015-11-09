@@ -11,7 +11,7 @@ use overload
   fallback => 1;
 
 use Carp 'croak';
-use DOM::Tiny::Collection;
+use DOM::Tiny::_Collection;
 use DOM::Tiny::CSS;
 use DOM::Tiny::HTML;
 use Scalar::Util qw(blessed weaken);
@@ -23,6 +23,8 @@ sub new {
   my $self = bless \DOM::Tiny::HTML->new, ref $class || $class;
   return @_ ? $self->parse(@_) : $self;
 }
+
+sub TO_JSON { shift->_delegate('render') }
 
 sub all_text { shift->_all_text(1, @_) }
 
@@ -151,7 +153,7 @@ sub tag {
   return $self;
 }
 
-sub tap { shift->DOM::Tiny::Collection::tap(@_) }
+sub tap { shift->DOM::Tiny::_Collection::tap(@_) }
 
 sub text { shift->_all_text(0, @_) }
 
@@ -223,7 +225,7 @@ sub _build { shift->new->tree(shift)->xml(shift) }
 sub _collect {
   my $self = shift;
   my $xml  = $self->xml;
-  return DOM::Tiny::Collection->new(map { $self->_build($_, $xml) } @_);
+  return DOM::Tiny::_Collection->new(map { $self->_build($_, $xml) } @_);
 }
 
 sub _content {
@@ -386,6 +388,8 @@ sub _wrap {
 1;
 
 =encoding utf8
+
+=for Pod::Coverage TO_JSON
 
 =head1 NAME
 
@@ -1059,6 +1063,217 @@ Alias for L</"attr">.
   my $str = "$dom";
 
 Alias for L</"to_string">.
+
+=head1 COLLECTION METHODS
+
+Some L<DOM::Tiny> methods return an array-based collection object, which can
+either be accessed directly as an array reference, or with the following
+methods.
+
+  # Chain methods
+  $collection->map(sub { ucfirst })->shuffle->each(sub {
+    my ($word, $num) = @_;
+    say "$num: $word";
+  });
+
+  # Access array directly to manipulate collection
+  $collection->[23] += 100;
+  say for @$collection;
+
+=head2 compact
+
+  my $new = $collection->compact;
+
+Create a new collection with all elements that are defined and not an empty
+string.
+
+  # $collection contains (0, 1, undef, 2, '', 3)
+  $collection->compact->join(', '); # "0, 1, 2, 3"
+
+=head2 each
+
+  my @elements = $collection->each;
+  $collection  = $collection->each(sub {...});
+
+Evaluate callback for each element in collection or return all elements as a
+list if none has been provided. The element will be the first argument passed
+to the callback and is also available as C<$_>.
+
+  # Make a numbered list
+  $collection->each(sub {
+    my ($e, $num) = @_;
+    say "$num: $e";
+  });
+
+=head2 first
+
+  my $first = $collection->first;
+  my $first = $collection->first(qr/foo/);
+  my $first = $collection->first(sub {...});
+  my $first = $collection->first($method);
+  my $first = $collection->first($method, @args);
+
+Evaluate regular expression/callback for, or call method on, each element in
+collection and return the first one that matched the regular expression, or for
+which the callback/method returned true. The element will be the first argument
+passed to the callback and is also available as C<$_>.
+
+  # Longer version
+  my $first = $collection->first(sub { $_->$method(@args) });
+
+  # Find first value that contains the word "dom"
+  my $interesting = $collection->first(qr/dom/i);
+
+  # Find first value that is greater than 5
+  my $greater = $collection->first(sub { $_ > 5 });
+
+=head2 flatten
+
+  my $new = $collection->flatten;
+
+Flatten nested collections/arrays recursively and create a new collection with
+all elements.
+
+  # $collection contains (1, [2, [3, 4], 5, [6]], 7)
+  $collection->flatten->join(', '); # "1, 2, 3, 4, 5, 6, 7"
+
+=head2 grep
+
+  my $new = $collection->grep(qr/foo/);
+  my $new = $collection->grep(sub {...});
+  my $new = $collection->grep($method);
+  my $new = $collection->grep($method, @args);
+
+Evaluate regular expression/callback for, or call method on, each element in
+collection and create a new collection with all elements that matched the
+regular expression, or for which the callback/method returned true. The element
+will be the first argument passed to the callback and is also available as
+C<$_>.
+
+  # Longer version
+  my $new = $collection->grep(sub { $_->$method(@args) });
+
+  # Find all values that contain the word "dom"
+  my $interesting = $collection->grep(qr/dom/i);
+
+  # Find all values that are greater than 5
+  my $greater = $collection->grep(sub { $_ > 5 });
+
+=head2 join
+
+  my $stream = $collection->join;
+  my $stream = $collection->join("\n");
+
+Turn collection into string.
+
+  # Join all values with commas
+  $collection->join(', ');
+
+=head2 last
+
+  my $last = $collection->last;
+
+Return the last element in collection.
+
+=head2 map
+
+  my $new = $collection->map(sub {...});
+  my $new = $collection->map($method);
+  my $new = $collection->map($method, @args);
+
+Evaluate callback for, or call method on, each element in collection and create
+a new collection from the results. The element will be the first argument
+passed to the callback and is also available as C<$_>.
+
+  # Longer version
+  my $new = $collection->map(sub { $_->$method(@args) });
+
+  # Append the word "dom" to all values
+  my $domified = $collection->map(sub { $_ . 'dom' });
+
+=head2 reduce
+
+  my $result = $collection->reduce(sub {...});
+  my $result = $collection->reduce(sub {...}, $initial);
+
+Reduce elements in collection with callback, the first element will be used as
+initial value if none has been provided.
+
+  # Calculate the sum of all values
+  my $sum = $collection->reduce(sub { $a + $b });
+
+  # Count how often each value occurs in collection
+  my $hash = $collection->reduce(sub { $a->{$b}++; $a }, {});
+
+=head2 reverse
+
+  my $new = $collection->reverse;
+
+Create a new collection with all elements in reverse order.
+
+=head2 slice
+
+  my $new = $collection->slice(4 .. 7);
+
+Create a new collection with all selected elements.
+
+  # $collection contains ('A', 'B', 'C', 'D', 'E')
+  $collection->slice(1, 2, 4)->join(' '); # "B C E"
+
+=head2 shuffle
+
+  my $new = $collection->shuffle;
+
+Create a new collection with all elements in random order.
+
+=head2 size
+
+  my $size = $collection->size;
+
+Number of elements in collection.
+
+=head2 sort
+
+  my $new = $collection->sort;
+  my $new = $collection->sort(sub {...});
+
+Sort elements based on return value of callback and create a new collection
+from the results.
+
+  # Sort values case-insensitive
+  my $case_insensitive = $collection->sort(sub { uc($a) cmp uc($b) });
+
+=head2 tap
+
+  $collection = $collection->tap(sub {...});
+
+Equivalent to L<Mojo::Base/"tap">.
+
+=head2 to_array
+
+  my $array = $collection->to_array;
+
+Turn collection into array reference.
+
+=head2 uniq
+
+  my $new = $collection->uniq;
+  my $new = $collection->uniq(sub {...});
+  my $new = $collection->uniq($method);
+  my $new = $collection->uniq($method, @args);
+
+Create a new collection without duplicate elements, using the string
+representation of either the elements or the return value of the
+callback/method.
+
+  # Longer version
+  my $new = $collection->uniq(sub { $_->$method(@args) });
+
+  # $collection contains ('foo', 'bar', 'bar', 'baz')
+  $collection->uniq->join(' '); # "foo bar baz"
+
+  # $collection contains ([1, 2], [2, 1], [3, 2])
+  $collection->uniq(sub{ $_->[1] })->to_array; # "[[1, 2], [2, 1]]"
 
 =head1 BUGS
 

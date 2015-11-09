@@ -62,10 +62,6 @@
          "file" : "lib/DOM/Tiny/CSS.pm",
          "version" : "0.001"
       },
-      "DOM::Tiny::Collection" : {
-         "file" : "lib/DOM/Tiny/Collection.pm",
-         "version" : "0.001"
-      },
       "DOM::Tiny::Entities" : {
          "file" : "lib/DOM/Tiny/Entities.pm",
          "version" : "0.001"
