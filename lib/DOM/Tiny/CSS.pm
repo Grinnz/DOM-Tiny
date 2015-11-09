@@ -2,7 +2,6 @@ package DOM::Tiny::CSS;
 
 use strict;
 use warnings;
-use Class::Tiny::Chained 'tree';
 
 our $VERSION = '0.001';
 
@@ -17,6 +16,18 @@ my $ATTR_RE   = qr/
   )?
   \]
 /x;
+
+sub new {
+  my $class = shift;
+  bless @_ ? @_ > 1 ? {@_} : {%{$_[0]}} : {}, ref $class || $class;
+}
+
+sub tree {
+  my $self = shift;
+  return $self->{tree} unless @_;
+  $self->{tree} = shift;
+  return $self;
+}
 
 sub matches {
   my $tree = shift->tree;
@@ -544,8 +555,15 @@ carefully since it is very dynamic.
 
 =head1 METHODS
 
-L<DOM::Tiny::CSS> inherits a constructor from L<Class::Tiny::Object|Class::Tiny/"Object construction">,
-and implements the following methods.
+L<DOM::Tiny::CSS> implements the following methods.
+
+=head2 new
+
+  my $css = DOM::Tiny::CSS->new;
+  my $css = DOM::Tiny::CSS->new(tree => $tree);
+  my $css = DOM::Tiny::CSS->new({tree => $tree});
+
+Construct a new hash-based L<DOM::Tiny::CSS> object.
 
 =head2 matches
 

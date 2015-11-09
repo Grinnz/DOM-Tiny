@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use DOM::Tiny::Entities qw(html_escape html_unescape);
 use Scalar::Util 'weaken';
-use Class::Tiny::Chained 'xml', { tree => sub { ['root'] } };
 
 our $VERSION = '0.001';
 
@@ -94,6 +93,25 @@ my %BLOCK = map { $_ => 1 } (
   qw(rt s script section select small strike strong style summary table),
   qw(tbody td template textarea tfoot th thead title tr tt u ul xmp)
 );
+
+sub new {
+  my $class = shift;
+  bless @_ ? @_ > 1 ? {@_} : {%{$_[0]}} : {}, ref $class || $class;
+}
+
+sub tree {
+  my $self = shift;
+  return exists $self->{tree} ? $self->{tree} : ($self->{tree} = ['root']) unless @_;
+  $self->{tree} = shift;
+  return $self;
+}
+
+sub xml {
+  my $self = shift;
+  return $self->{xml} unless @_;
+  $self->{xml} = shift;
+  return $self;
+}
 
 sub parse {
   my ($self, $html) = (shift, "$_[0]");
@@ -311,8 +329,15 @@ auto detection based on processing instructions.
 
 =head1 METHODS
 
-L<DOM::Tiny::HTML> inherits a constructor from L<Class::Tiny::Object|Class::Tiny/"Object construction">,
-and implements the following methods.
+L<DOM::Tiny::HTML> implements the following methods.
+
+=head2 new
+
+  my $html = DOM::Tiny::HTML->new;
+  my $html = DOM::Tiny::HTML->new(xml => 1);
+  my $html = DOM::Tiny::HTML->new({xml => 1});
+
+Construct a new hash-based L<DOM::Tiny::HTML> object.
 
 =head2 parse
 

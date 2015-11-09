@@ -1,6 +1,5 @@
 requires 'perl' => '5.010001';
 requires 'Carp';
-requires 'Class::Tiny::Chained';
 requires 'Exporter';
 requires 'List::Util';
 requires 'Scalar::Util';

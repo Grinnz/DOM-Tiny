@@ -83,7 +83,6 @@ EOW
       "recursive_test_files" => 1,
       "requires" => {
         "Carp" => 0,
-        "Class::Tiny::Chained" => 0,
         "Exporter" => 0,
         "List::Util" => 0,
         "Scalar::Util" => 0,
