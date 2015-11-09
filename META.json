@@ -31,7 +31,7 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.034"
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "develop" : {
