@@ -6,7 +6,7 @@ use Carp 'croak';
 use List::Util;
 use Scalar::Util 'blessed';
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 sub new {
   my $class = shift;
