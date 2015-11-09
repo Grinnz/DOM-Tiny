@@ -153,7 +153,7 @@ sub tag {
   return $self;
 }
 
-sub tap { shift->DOM::Tiny::_Collection::tap(@_) }
+sub tap { DOM::Tiny::_Collection::tap(@_) }
 
 sub text { shift->_all_text(0, @_) }
 
