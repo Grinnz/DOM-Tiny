@@ -3,6 +3,7 @@ use warnings;
 use utf8;
 use Test::More;
 use DOM::Tiny;
+use JSON::PP ();
 
 # Empty
 is(DOM::Tiny->new,                     '',    'right result');
@@ -2500,5 +2501,8 @@ my $huge = ('<a>' x 100) . 'works' . ('</a>' x 100);
 $dom = DOM::Tiny->new($huge);
 is $dom->all_text, 'works', 'right text';
 is "$dom", $huge, 'right result';
+
+# TO_JSON
+is +JSON::PP->new->convert_blessed->encode([DOM::Tiny->new('<a></a>')]), '["<a></a>"]', 'right result';
 
 done_testing();
