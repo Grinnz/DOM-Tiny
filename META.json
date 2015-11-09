@@ -21,6 +21,11 @@
          "share",
          "t",
          "xt"
+      ],
+      "package" : [
+         "DOM::Tiny::_CSS",
+         "DOM::Tiny::_Collection",
+         "DOM::Tiny::_HTML"
       ]
    },
    "prereqs" : {
