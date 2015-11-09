@@ -952,8 +952,8 @@ passed to the callback and is also available as C<$_>.
   # Longer version
   my $first = $collection->first(sub { $_->$method(@args) });
 
-  # Find first value that contains the word "dom"
-  my $interesting = $collection->first(qr/dom/i);
+  # Find first value that contains the word "tiny"
+  my $interesting = $collection->first(qr/tiny/i);
 
   # Find first value that is greater than 5
   my $greater = $collection->first(sub { $_ > 5 });
@@ -984,8 +984,8 @@ C<$_>.
   # Longer version
   my $new = $collection->grep(sub { $_->$method(@args) });
 
-  # Find all values that contain the word "dom"
-  my $interesting = $collection->grep(qr/dom/i);
+  # Find all values that contain the word "tiny"
+  my $interesting = $collection->grep(qr/tiny/i);
 
   # Find all values that are greater than 5
   my $greater = $collection->grep(sub { $_ > 5 });
@@ -1019,8 +1019,8 @@ passed to the callback and is also available as C<$_>.
   # Longer version
   my $new = $collection->map(sub { $_->$method(@args) });
 
-  # Append the word "dom" to all values
-  my $domified = $collection->map(sub { $_ . 'dom' });
+  # Append the word "tiny" to all values
+  my $domified = $collection->map(sub { $_ . 'tiny' });
 
 =head2 reduce
 
