@@ -3,15 +3,10 @@ package DOM::Tiny::Collection;
 use strict;
 use warnings;
 use Carp 'croak';
-use Exporter 'import';
 use List::Util;
 use Scalar::Util 'blessed';
 
 our $VERSION = '0.001';
-
-our @EXPORT_OK = ('c');
-
-sub c { __PACKAGE__->new(@_) }
 
 sub new {
   my $class = shift;
@@ -134,10 +129,6 @@ DOM::Tiny::Collection - Collection
     say "$num: $word";
   });
 
-  # Use the alternative constructor
-  use DOM::Tiny::Collection 'c';
-  c(qw(a b c))->join('/')->url_escape->say;
-
 =head1 DESCRIPTION
 
 L<DOM::Tiny::Collection> is an array-based container for collections of
@@ -147,17 +138,6 @@ L<DOM::Tiny> nodes or other items based on L<Mojo::Collection>.
   my $collection = DOM::Tiny::Collection->new(1 .. 25);
   $collection->[23] += 100;
   say for @$collection;
-
-=head1 FUNCTIONS
-
-L<DOM::Tiny::Collection> implements the following functions, which can be imported
-individually.
-
-=head2 c
-
-  my $collection = c(1, 2, 3);
-
-Construct a new array-based L<DOM::Tiny::Collection> object.
 
 =head1 METHODS
 

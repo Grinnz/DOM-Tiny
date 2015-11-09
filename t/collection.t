@@ -1,8 +1,10 @@
 use strict;
 use warnings;
 use Test::More;
-use DOM::Tiny::Collection 'c';
+use DOM::Tiny::Collection;
 use JSON::PP ();
+
+sub c { DOM::Tiny::Collection->new(@_) }
 
 # Array
 is c(1, 2, 3)->[1], 2, 'right result';
