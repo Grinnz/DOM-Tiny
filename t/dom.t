@@ -2493,7 +2493,7 @@ is $dom->tree->[5][1], ' HTML4 ',             'right comment';
 is $dom->tree->[7][1], ' bad idea -- HTML4 ', 'right comment';
 
 SKIP: {
-  skip 'Regex subexpression recursion causes SIGSEGV on 5.8', 1 if $] < 5.010000;
+  skip 'Regex subexpression recursion causes SIGSEGV on 5.8', 1 unless $] >= 5.010000;
   # Huge number of attributes
   $dom = DOM::Tiny->new('<div ' . ('a=b ' x 32768) . '>Test</div>');
   is $dom->at('div[a=b]')->text, 'Test', 'right text';

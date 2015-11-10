@@ -6,6 +6,8 @@ use Carp 'croak';
 use List::Util;
 use Scalar::Util 'blessed';
 
+use constant REDUCE => ($] >= 5.008009 ? \&List::Util::reduce : \&_reduce);
+
 our $VERSION = '0.002';
 
 sub new {
@@ -57,7 +59,7 @@ sub map {
 sub reduce {
   my $self = shift;
   @_ = (@_, @$self);
-  goto &List::Util::reduce;
+  goto &{REDUCE()};
 }
 
 sub reverse { $_[0]->new(reverse @{$_[0]}) }
@@ -102,6 +104,28 @@ sub uniq {
 
 sub _flatten {
   map { _ref($_) ? _flatten(@$_) : $_ } @_;
+}
+
+# For perl < 5.8.9
+sub _reduce (&@) {
+  my $code = shift;
+
+  return shift unless @_ > 1;
+
+  my $caller = caller;
+
+  no strict 'refs';
+
+  local(*{$caller."::a"}) = \my $a;
+  local(*{$caller."::b"}) = \my $b;
+
+  $a = shift;
+  foreach (@_) {
+    $b = $_;
+    $a = &{$code}();
+  }
+
+  $a;
 }
 
 sub _ref { ref $_[0] eq 'ARRAY' || blessed $_[0] && $_[0]->isa(__PACKAGE__) }
