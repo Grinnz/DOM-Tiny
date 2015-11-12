@@ -1506,7 +1506,7 @@ Report any issues on the public bugtracker.
 
 Dan Book <dbook@cpan.org>
 
-Code and tests adapted from L<Mojo::DOM> by the L<Mojolicious> team.
+Code and tests adapted from L<Mojo::DOM>, a lightweight DOM parser by the L<Mojolicious> team.
 
 =head1 CONTRIBUTORS
 
@@ -1518,7 +1518,9 @@ Code and tests adapted from L<Mojo::DOM> by the L<Mojolicious> team.
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2015 by Dan Book.
+Copyright (c) 2008-2015 Sebastian Riedel.
+
+Copyright (c) 2015 L</"AUTHOR"> and L</"CONTRIBUTORS"> for adaptation to standalone format.
 
 This is free software, licensed under:
 
