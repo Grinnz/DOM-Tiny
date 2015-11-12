@@ -1506,6 +1506,8 @@ Report any issues on the public bugtracker.
 
 Dan Book <dbook@cpan.org>
 
+Code and tests adapted from L<Mojo::DOM> by the L<Mojolicious> team.
+
 =head1 CONTRIBUTORS
 
 =over
