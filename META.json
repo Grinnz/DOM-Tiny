@@ -70,14 +70,9 @@
    },
    "release_status" : "stable",
    "resources" : {
-      "bugtracker" : {
-         "web" : "https://github.com/Grinnz/DOM-Tiny/issues"
-      },
-      "homepage" : "https://github.com/Grinnz/DOM-Tiny",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/Grinnz/DOM-Tiny.git",
-         "web" : "https://github.com/Grinnz/DOM-Tiny"
+         "url" : "git://git.shadowcat.co.uk/catagits/DOM-Tiny.git"
       }
    },
    "version" : "0.003",
