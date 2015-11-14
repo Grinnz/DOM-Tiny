@@ -72,7 +72,8 @@
    "resources" : {
       "repository" : {
          "type" : "git",
-         "url" : "git://git.shadowcat.co.uk/catagits/DOM-Tiny.git"
+         "url" : "git://git.shadowcat.co.uk/catagits/DOM-Tiny.git",
+         "web" : "http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/DOM-Tiny.git"
       }
    },
    "version" : "0.003",
