@@ -119,9 +119,23 @@ sub _compile {
       ];
     }
 
-    # Pseudo-class (":not" contains more selectors)
+    # Pseudo-class
     elsif ($css =~ /\G:([\w\-]+)(?:\(((?:\([^)]+\)|[^)])+)\))?/gcs) {
-      push @$last, ['pc', lc $1, $1 eq 'not' ? _compile($2) : _equation($2)];
+      my ($name, $args) = (lc $1, $2);
+
+      # ":not" (contains more selectors)
+      $args = _compile($args) if $name eq 'not';
+
+      # ":nth-*" (with An+B notation)
+      $args = _equation($args) if $name =~ /^nth-/;
+
+      # ":first-*" (rewrite to ":nth-*")
+      ($name, $args) = ("nth-$1", [0, 1]) if $name =~ /^first-(.+)$/;
+
+      # ":last-*" (rewrite to ":nth-*")
+      ($name, $args) = ("nth-$name", [-1, 1]) if $name =~ /^last-/;
+
+      push @$last, ['pc', $name, $args];
     }
 
     # Tag
@@ -138,7 +152,7 @@ sub _compile {
 sub _empty { $_[0][0] eq 'comment' || $_[0][0] eq 'pi' }
 
 sub _equation {
-  return [] unless my $equation = shift;
+  return [0, 0] unless my $equation = shift;
 
   # "even"
   return [2, 2] if $equation =~ /^\s*even\s*$/i;
@@ -146,14 +160,13 @@ sub _equation {
   # "odd"
   return [2, 1] if $equation =~ /^\s*odd\s*$/i;
 
-  # Equation
-  my $num = [1, 1];
-  return $num if $equation !~ /(?:(-?(?:\d+)?)?(n))?\s*\+?\s*(-?\s*\d+)?\s*$/i;
-  $num->[0] = defined($1) && $1 ne '' ? $1 : $2 ? 1 : 0;
-  $num->[0] = -1 if $num->[0] eq '-';
-  $num->[1] = defined($3) ? $3 : 0;
-  $num->[1] =~ s/\s+//g;
-  return $num;
+  # "4", "+4" or "-4"
+  return [0, $1] if $equation =~ /^\s*((?:\+|-)?\d+)\s*$/;
+
+  # "n", "4n", "+4n", "-4n", "n+1", "4n-1", "+4n-1" (and other variations)
+  return [0, 0]
+    unless $equation =~ /^\s*((?:\+|-)?(?:\d+)?)?n\s*((?:\+|-)\s*\d+)?\s*$/i;
+  return [$1 eq '-' ? -1 : $1 eq '' ? 1 : $1, join('', split(' ', $2 || 0))];
 }
 
 sub _match {
@@ -167,29 +180,23 @@ sub _name {qr/(?:^|:)\Q@{[_unescape(shift)]}\E$/}
 sub _pc {
   my ($class, $args, $current) = @_;
 
+  # ":checked"
+  return exists $current->[2]{checked} || exists $current->[2]{selected}
+    if $class eq 'checked';
+
+  # ":not"
+  return !_match($args, $current, $current) if $class eq 'not';
+
   # ":empty"
   return !grep { !_empty($_) } @$current[4 .. $#$current] if $class eq 'empty';
 
   # ":root"
   return $current->[3] && $current->[3][0] eq 'root' if $class eq 'root';
 
-  # ":not"
-  return !_match($args, $current, $current) if $class eq 'not';
-
-  # ":checked"
-  return exists $current->[2]{checked} || exists $current->[2]{selected}
-    if $class eq 'checked';
-
-  # ":first-*" or ":last-*" (rewrite with equation)
-  ($class, $args) = $1 ? ("nth-$class", [0, 1]) : ("nth-last-$class", [-1, 1])
-    if $class =~ s/^(?:(first)|last)-//;
-
-  # ":nth-*"
-  if ($class =~ /^nth-/) {
+  # ":nth-child", ":nth-last-child", ":nth-of-type" or ":nth-last-of-type"
+  if (ref $args) {
     my $type = $class =~ /of-type$/ ? $current->[1] : undef;
     my @siblings = @{_siblings($current, $type)};
-
-    # ":nth-last-*"
     @siblings = reverse @siblings if $class =~ /^nth-last/;
 
     for my $i (0 .. $#siblings) {
@@ -199,10 +206,10 @@ sub _pc {
     }
   }
 
-  # ":only-*"
-  elsif ($class =~ /^only-(?:child|(of-type))$/) {
-    $_ ne $current and return undef
-      for @{_siblings($current, $1 ? $current->[1] : undef)};
+  # ":only-child" or ":only-of-type"
+  elsif ($class eq 'only-child' || $class eq 'only-of-type') {
+    my $type = $class eq 'only-of-type' ? $current->[1] : undef;
+    $_ ne $current and return undef for @{_siblings($current, $type)};
     return 1;
   }
 

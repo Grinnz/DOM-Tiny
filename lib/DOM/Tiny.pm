@@ -465,8 +465,8 @@ names are lowercased and selectors need to be lowercase as well.
   my $dom = DOM::Tiny->new('<P ID="greeting">Hi!</P>');
   say $dom->at('p[id]')->text;
 
-If XML processing instructions are found, the parser will automatically switch
-into XML mode and everything becomes case-sensitive.
+If an XML declaration is found, the parser will automatically switch into XML
+mode and everything becomes case-sensitive.
 
   # XML semantics
   my $dom = DOM::Tiny->new('<?xml version="1.0"?><P ID="greeting">Hi!</P>');
@@ -815,8 +815,8 @@ node's content.
   my $result = $dom->at('div ~ p');
 
 Find first descendant element of this element matching the CSS selector and
-return it as a L<DOM::Tiny> object or return C<undef> if none could be found.
-All selectors listed in L</"SELECTORS"> are supported.
+return it as a L<DOM::Tiny> object, or C<undef> if none could be found. All
+selectors listed in L</"SELECTORS"> are supported.
 
   # Find first element with "svg" namespace definition
   my $namespace = $dom->at('[xmlns\:svg]')->{'xmlns:svg'};
@@ -972,7 +972,7 @@ L</"SELECTORS"> are supported.
 
   my $namespace = $dom->namespace;
 
-Find this element's namespace or return C<undef> if none could be found.
+Find this element's namespace, or return C<undef> if none could be found.
 
   # Find namespace for an element with namespace prefix
   my $namespace = $dom->at('svg > svg\:circle')->namespace;
@@ -984,8 +984,8 @@ Find this element's namespace or return C<undef> if none could be found.
 
   my $sibling = $dom->next;
 
-Return L<DOM::Tiny> object for next sibling element or C<undef> if there are no
-more siblings.
+Return L<DOM::Tiny> object for next sibling element, or C<undef> if there are
+no more siblings.
 
   # "<h2>123</h2>"
   $dom->parse('<div><h1>Test</h1><h2>123</h2></div>')->at('h1')->next;
@@ -994,7 +994,7 @@ more siblings.
 
   my $sibling = $dom->next_node;
 
-Return L<DOM::Tiny> object for next sibling node or C<undef> if there are no
+Return L<DOM::Tiny> object for next sibling node, or C<undef> if there are no
 more siblings.
 
   # "456"
@@ -1009,8 +1009,11 @@ more siblings.
 
   my $parent = $dom->parent;
 
-Return L<DOM::Tiny> object for parent of this node or C<undef> if this node has
-no parent.
+Return L<DOM::Tiny> object for parent of this node, or C<undef> if this node
+has no parent.
+
+  # "<b><i>Test</i></b>"
+  $dom->parse('<p><b><i>Test</i></b></p>')->at('i')->parent;
 
 =head2 parse
 
@@ -1019,7 +1022,7 @@ no parent.
 Parse HTML/XML fragment.
 
   # Parse XML
-  my $dom = DOM::Tiny->new->xml(1)->parse($xml);
+  my $dom = DOM::Tiny->new->xml(1)->parse('<foo>I ♥ DOM::Tiny!</foo>');
 
 =head2 preceding
 
@@ -1079,7 +1082,7 @@ node's content.
 
   my $sibling = $dom->previous;
 
-Return L<DOM::Tiny> object for previous sibling element or C<undef> if there
+Return L<DOM::Tiny> object for previous sibling element, or C<undef> if there
 are no more siblings.
 
   # "<h1>Test</h1>"
@@ -1089,7 +1092,7 @@ are no more siblings.
 
   my $sibling = $dom->previous_node;
 
-Return L<DOM::Tiny> object for previous sibling node or C<undef> if there are
+Return L<DOM::Tiny> object for previous sibling node, or C<undef> if there are
 no more siblings.
 
   # "123"
@@ -1225,10 +1228,10 @@ C<root>, C<tag> or C<text>.
   my $value = $dom->val;
 
 Extract value from form element (such as C<button>, C<input>, C<option>,
-C<select> and C<textarea>) or return C<undef> if this element has no value. In
+C<select> and C<textarea>), or return C<undef> if this element has no value. In
 the case of C<select> with C<multiple> attribute, find C<option> elements with
-C<selected> attribute and return an array reference with all values or C<undef>
-if none could be found.
+C<selected> attribute and return an array reference with all values, or
+C<undef> if none could be found.
 
   # "a"
   $dom->parse('<input name="test" value="a">')->at('input')->val;
@@ -1285,7 +1288,7 @@ children of the first innermost element.
   $dom     = $dom->xml($bool);
 
 Disable HTML semantics in parser and activate case-sensitivity, defaults to
-auto detection based on processing instructions.
+auto detection based on XML declarations.
 
 =head1 COLLECTION METHODS
 
