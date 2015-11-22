@@ -116,16 +116,16 @@ sub _reduce (&@) {
 
   no strict 'refs';
 
-  local(*{$caller."::a"}) = \my $a;
-  local(*{$caller."::b"}) = \my $b;
+  local(*{$caller."::a"}) = \my $x;
+  local(*{$caller."::b"}) = \my $y;
 
-  $a = shift;
+  $x = shift;
   foreach (@_) {
-    $b = $_;
-    $a = &{$code}();
+    $y = $_;
+    $x = $code->();
   }
 
-  $a;
+  $x;
 }
 
 sub _ref { ref $_[0] eq 'ARRAY' || blessed $_[0] && $_[0]->isa(__PACKAGE__) }
