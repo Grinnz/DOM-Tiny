@@ -394,7 +394,7 @@ objects. All selectors listed in L</"SELECTORS"> are supported.
 
   $dom = $dom->append('<p>I ♥ DOM::Tiny!</p>');
 
-Append HTML/XML fragment to this node.
+Append HTML/XML fragment to this node (for all node types other than C<root>).
 
   # "<div><h1>Test</h1><h2>123</h2></div>"
   $dom->parse('<div><h1>Test</h1></div>')
@@ -662,7 +662,7 @@ before this node as L<DOM::Tiny> objects.
 
   $dom = $dom->prepend('<p>I ♥ DOM::Tiny!</p>');
 
-Prepend HTML/XML fragment to this node.
+Prepend HTML/XML fragment to this node (for all node types other than C<root>).
 
   # "<div><h1>Test</h1><h2>123</h2></div>"
   $dom->parse('<div><h2>123</h2></div>')
@@ -866,8 +866,8 @@ C<undef> if none could be found.
 
   $dom = $dom->wrap('<div></div>');
 
-Wrap HTML/XML fragment around this node, placing it as the last child of the
-first innermost element.
+Wrap HTML/XML fragment around this node (for all node types other than C<root>),
+placing it as the last child of the first innermost element.
 
   # "<p>123<b>Test</b></p>"
   $dom->parse('<b>Test</b>')->at('b')->wrap('<p>123</p>')->root;
@@ -885,8 +885,8 @@ first innermost element.
 
   $dom = $dom->wrap_content('<div></div>');
 
-Wrap HTML/XML fragment around this node's content, placing it as the last
-children of the first innermost element.
+Wrap HTML/XML fragment around this node's content (for C<root> and C<tag>
+nodes), placing it as the last children of the first innermost element.
 
   # "<p><b>123Test</b></p>"
   $dom->parse('<p>Test<p>')->at('p')->wrap_content('<b>123</b>')->root;

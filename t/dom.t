@@ -243,6 +243,8 @@ is $dom->at('b')->child_nodes->[1]->next, undef, 'no siblings';
 is $dom->at('script')->child_nodes->first->wrap('<i>:)</i>')->root,
   '<script><i>:)a</i><b>fce</b>1<b>d</b></script>', 'right result';
 is $dom->at('i')->child_nodes->first->wrap_content('<b></b>')->root,
+  '<script><i>:)a</i><b>fce</b>1<b>d</b></script>', 'no changes';
+is $dom->at('i')->child_nodes->first->wrap('<b></b>')->root,
   '<script><i><b>:)</b>a</i><b>fce</b>1<b>d</b></script>', 'right result';
 is $dom->at('b')->child_nodes->first->ancestors->map('tag')->join(','),
   'b,i,script', 'right result';
@@ -1270,8 +1272,9 @@ is "$dom", <<EOF, 'right result';
 EOF
 is $dom->at('div')->text, 'A-1', 'right text';
 is $dom->at('iv'), undef, 'no result';
-$dom->prepend('l')->prepend('alal')->prepend('a');
-is "$dom", <<EOF, 'no change';
+is $dom->prepend('l')->prepend('alal')->prepend('a')->type, 'root',
+  'right type';
+is "$dom", <<EOF, 'no changes';
 <ul>
     24<div>A-1</div>25<li>A</li><p>A1</p>23
     <p>B</p>
@@ -1279,8 +1282,8 @@ is "$dom", <<EOF, 'no change';
 </ul>
 <div>D</div>
 EOF
-$dom->append('lalala');
-is "$dom", <<EOF, 'no change';
+is $dom->append('lalala')->type, 'root', 'right type';
+is "$dom", <<EOF, 'no changes';
 <ul>
     24<div>A-1</div>25<li>A</li><p>A1</p>23
     <p>B</p>
@@ -2125,7 +2128,10 @@ is $dom->all_text, 'DOM Test', 'right text';
 
 # Wrap elements
 $dom = DOM::Tiny->new('<a>Test</a>');
+is "$dom", '<a>Test</a>', 'right result';
 is $dom->wrap('<b></b>')->type, 'root', 'right type';
+is "$dom", '<a>Test</a>', 'no changes';
+is $dom->at('a')->wrap('<b></b>')->type, 'tag', 'right type';
 is "$dom", '<b><a>Test</a></b>', 'right result';
 is $dom->at('b')->strip->at('a')->wrap('A')->tag, 'a', 'right tag';
 is "$dom", '<a>Test</a>', 'right result';
