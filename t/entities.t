@@ -24,6 +24,9 @@ is html_unescape('foobar&apos;&lt;baz&gt;&#x26;&#34;'), "foobar'<baz>&\"",
 # html_unescape (nothing to unescape)
 is html_unescape('foobar'), 'foobar', 'right HTML unescaped result';
 
+# html_unescape (bengal numbers with nothing to unescape)
+is html_unescape('&#০৩৯;&#x০৩৯;'), '&#০৩৯;&#x০৩৯;', 'no changes';
+
 # html_unescape (UTF-8)
 is html_unescape(decode 'UTF-8', 'foo&lt;baz&gt;&#x26;&#34;&OElig;&Foo;'),
   "foo<baz>&\"\x{152}&Foo;", 'right HTML unescaped result';
