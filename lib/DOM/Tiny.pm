@@ -170,6 +170,11 @@ sub val {
   return defined($self->{value}) ? $self->{value} : $self->text
     if (my $tag = $self->tag) eq 'option';
 
+  # "input" ("type=checkbox" and "type=radio")
+  my $type = $self->{type} || '';
+  return defined $self->{value} ? $self->{value} : 'on'
+    if $tag eq 'input' && ($type eq 'radio' || $type eq 'checkbox');
+
   # "textarea", "input" or "button"
   return $tag eq 'textarea' ? $self->text : $self->{value} if $tag ne 'select';
 
@@ -235,7 +240,7 @@ sub _content {
   my $tree = $self->tree;
   unless ($tree->[0] eq 'root' || $tree->[0] eq 'tag') {
     my $old = $self->content;
-    return $self->content($start ? "$old$new" : "$new$old");
+    return $self->content($start ? $old . $new : $new . $old);
   }
 
   $start  = $start  ? ($#$tree + 1) : _start($tree);
@@ -1234,7 +1239,7 @@ C<selected> attribute and return an array reference with all values, or
 C<undef> if none could be found.
 
   # "a"
-  $dom->parse('<input name="test" value="a">')->at('input')->val;
+  $dom->parse('<input name=test value=a>')->at('input')->val;
 
   # "b"
   $dom->parse('<textarea>b</textarea>')->at('textarea')->val;
@@ -1249,6 +1254,9 @@ C<undef> if none could be found.
   # "e"
   $dom->parse('<select multiple><option selected>e</option></select>')
     ->at('select')->val->[0];
+
+  # "on"
+  $dom->parse('<input name=test type=checkbox>')->at('input')->val;
 
 =head2 wrap
 

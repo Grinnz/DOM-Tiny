@@ -2,6 +2,7 @@
   - Merge several CSS bugfixes and improvements from Mojolicious 6.31 and 6.32.
   - Merge wrap and wrap_content bugfixes from Mojolicious 6.34.
   - Fix small html_unescape bug in DOM::Tiny::Entities
+  - Merge handling of "on" default values in val method from Mojolicious 6.49.
 
 0.002     2015-11-09 19:28:42 EST
   - Support perl 5.8 (mst)
