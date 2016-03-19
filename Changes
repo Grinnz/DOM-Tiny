@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.003     2016-03-19 18:35:22 UTC
   - Merge several CSS bugfixes and improvements from Mojolicious 6.31 and 6.32.
   - Merge wrap and wrap_content bugfixes from Mojolicious 6.34.
   - Fix small html_unescape bug in DOM::Tiny::Entities
