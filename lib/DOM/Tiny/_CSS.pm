@@ -3,7 +3,7 @@ package DOM::Tiny::_CSS;
 use strict;
 use warnings;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 my $ESCAPE_RE = qr/\\[^0-9a-fA-F]|\\[0-9a-fA-F]{1,6}/;
 my $ATTR_RE   = qr/

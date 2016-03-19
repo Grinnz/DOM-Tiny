@@ -16,7 +16,7 @@ use DOM::Tiny::_CSS;
 use DOM::Tiny::_HTML;
 use Scalar::Util qw(blessed weaken);
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 sub new {
   my $class = shift;

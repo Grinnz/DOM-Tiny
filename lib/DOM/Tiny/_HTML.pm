@@ -5,7 +5,7 @@ use warnings;
 use DOM::Tiny::Entities qw(html_escape html_unescape);
 use Scalar::Util 'weaken';
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 my $ATTR_RE = qr/
   ([^<>=\s\/]+|\/)                         # Key
