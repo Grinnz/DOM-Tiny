@@ -4,7 +4,7 @@
       "Dan Book <dbook@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.043, CPAN::Meta::Converter version 2.150001",
+   "generated_by" : "Dist::Zilla version 5.043, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "artistic_2"
    ],
@@ -61,11 +61,11 @@
    "provides" : {
       "DOM::Tiny" : {
          "file" : "lib/DOM/Tiny.pm",
-         "version" : "0.003"
+         "version" : "0.004"
       },
       "DOM::Tiny::Entities" : {
          "file" : "lib/DOM/Tiny/Entities.pm",
-         "version" : "0.003"
+         "version" : "0.004"
       }
    },
    "release_status" : "stable",
@@ -76,9 +76,10 @@
          "web" : "http://git.shadowcat.co.uk/gitweb/gitweb.cgi?p=catagits/DOM-Tiny.git"
       }
    },
-   "version" : "0.003",
+   "version" : "0.004",
    "x_contributors" : [
-      "Dan Book <grinnz@grinnz.com>"
+      "Dan Book <grinnz@grinnz.com>",
+      "Matt S Trout <mst@shadowcat.co.uk>"
    ]
 }
 

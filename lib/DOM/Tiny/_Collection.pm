@@ -116,12 +116,11 @@ sub _reduce (&@) {
 
   no strict 'refs';
 
-  local(*{$caller."::a"}) = \my $x;
-  local(*{$caller."::b"}) = \my $y;
+  local (*{"${caller}::a"}, *{"${caller}::b"}) = (\my $x, \my $y);
 
   $x = shift;
-  foreach (@_) {
-    $y = $_;
+  foreach my $e (@_) {
+    $y = $e;
     $x = $code->();
   }
 

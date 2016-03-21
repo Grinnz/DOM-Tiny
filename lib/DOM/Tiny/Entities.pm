@@ -86,7 +86,7 @@ Escape unsafe characters C<&>, C<< < >>, C<< > >>, C<">, and C<'> in string.
 Unescape all HTML entities in string, according to the
 L<HTML Living Standard|https://html.spec.whatwg.org/#named-character-references-table>.
 
- html_unescape '&lt;div&gt; # "<div>"
+ html_unescape '&lt;div&gt'; # "<div>"
 
 =head1 BUGS
 
