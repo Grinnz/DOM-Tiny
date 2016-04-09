@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use base qw(Mojo::DOM58);
 
+our $VERSION = '0.004';
+
 1;
 
 =encoding utf8
