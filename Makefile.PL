@@ -7,7 +7,7 @@ use 5.008001;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Minimalistic HTML/XML DOM parser with CSS selectors",
+  "ABSTRACT" => "This is an empty subclass, you wanted Mojo::DOM58",
   "AUTHOR" => "Dan Book <dbook\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
@@ -20,6 +20,7 @@ my %WriteMakefileArgs = (
     "Carp" => 0,
     "Exporter" => 0,
     "List::Util" => 0,
+    "Mojo::DOM58" => 0,
     "Scalar::Util" => 0
   },
   "TEST_REQUIRES" => {
@@ -40,6 +41,7 @@ my %FallbackPrereqs = (
   "Exporter" => 0,
   "JSON::PP" => 0,
   "List::Util" => 0,
+  "Mojo::DOM58" => 0,
   "Scalar::Util" => 0,
   "Test::More" => "0.88"
 );

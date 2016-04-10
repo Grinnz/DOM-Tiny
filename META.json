@@ -1,10 +1,10 @@
 {
-   "abstract" : "Minimalistic HTML/XML DOM parser with CSS selectors",
+   "abstract" : "This is an empty subclass, you wanted Mojo::DOM58",
    "author" : [
       "Dan Book <dbook@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.043, CPAN::Meta::Converter version 2.150005",
+   "generated_by" : "Dist::Zilla version 5.043, CPAN::Meta::Converter version 2.150001",
    "license" : [
       "artistic_2"
    ],
@@ -46,6 +46,7 @@
             "Carp" : "0",
             "Exporter" : "0",
             "List::Util" : "0",
+            "Mojo::DOM58" : "0",
             "Scalar::Util" : "0",
             "perl" : "5.008001"
          }
