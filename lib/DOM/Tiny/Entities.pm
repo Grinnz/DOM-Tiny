@@ -5,7 +5,7 @@ use warnings;
 use Exporter 'import';
 use Mojo::DOM58::Entities qw(html_escape html_unescape);
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 our @EXPORT_OK = qw(html_escape html_unescape);
 

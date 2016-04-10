@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base qw(Mojo::DOM58);
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 1;
 
