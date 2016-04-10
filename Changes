@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Murderize dist due to replacement by Mojo::DOM58
 
 0.003     2016-03-19 18:35:22 UTC
   - Merge several CSS bugfixes and improvements from Mojolicious 6.31 and 6.32.
