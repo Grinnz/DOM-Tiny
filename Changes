@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Gut tests to avoid having to keep them in sync with Mojo::DOM58 changes
 
 0.004     2016-04-10 15:09:07 UTC
   - Murderize dist due to replacement by Mojo::DOM58
